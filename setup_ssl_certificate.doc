@@ -1,0 +1,64 @@
+
+    Try downloading this file and building it:
+    https://github.com/driskell/log-courier/blob/develop/src/lc-tlscert/lc-tlscert.go
+
+    go build lc-tlscert.go will build the certificate
+
+    If we connect using an IP address then the certificate MUST contain a matching IP SAN to pass validation.
+
+    The above program will ask for additional DNS names and IP addresses. It will add an IP SAN to the resulting certificate and it should work.
+
+    The program is based on Go's own certificate generator it uses to test TLS so should be good.
+
+    Specify CN = *  and specify both DNS and IP of connecting server.
+
+    Add additional SAN to the certificate, one for each name. Or, connect via FQDN (es101.logstash.domain, es102.logstash.domain...) and have a single wildcard certificate (*.logstash.domain).
+
+    You then share that key pair across the platform in each logstash-forwarder .
+
+    ./lc-tlscert 
+    Specify the Common Name for the certificate. The common name
+    can be anything, but is usually set to the server's primary
+    DNS name. Even if you plan to connect via IP address you
+    should specify the DNS name here.
+
+    Common name: you_domain_or_whatever
+
+    The next step is to add any additional DNS names and IP
+    addresses that clients may use to connect to the server. If
+    you plan to connect to the server via IP address and not DNS
+    then you must specify those IP addresses here.
+    When you are finished, just press enter.
+
+    DNS or IP address 1: 172.17.42.1 (th ip address to trust)
+    DNS or IP address 2: 
+
+    How long should the certificate be valid for? A year (365
+    days) is usual but requires the certificate to be regenerated
+    within a year or the certificate will cease working.
+
+    Number of days: 3650
+    Common name: what_ever
+    DNS SANs:
+        None
+    IP SANs:
+        172.17.42.1
+
+    The certificate can now be generated
+    Press any key to begin generating the self-signed certificate.
+
+    Successfully generated certificate
+        Certificate: selfsigned.crt
+        Private Key: selfsigned.key
+
+    Copy and paste the following into your Log Courier
+    configuration, adjusting paths as necessary:
+        "transport": "tls",
+        "ssl ca":    "path/to/selfsigned.crt",
+
+    Copy and paste the following into your LogStash configuration, 
+    adjusting paths as necessary:
+        ssl_certificate => "path/to/selfsigned.crt",
+        ssl_key         => "path/to/selfsigned.key",
+
+

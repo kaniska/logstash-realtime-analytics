@@ -1,0 +1,16 @@
+#!/bin/bash
+echo "Check if logstash folder exists"
+if [ ! -d /app/logstash ]; then mkdir logstash; fi
+pidlist=`ps -ef U root | grep "/usr/lib/logstash-1.4.2/bin/logstash" | grep -v grep | awk '{print $2}'`
+echo "Current process Id list to kill."
+for pid in $pidlist; do
+ echo "$pid"
+ sudo kill "$pid"
+ sleep 1
+done
+sleep 2
+cd /app/logstash/
+if [ -f logstash-executor ]; then sudo rm -f nohup.out; fi
+echo "Starting logstash process"
+sudo nohup /usr/lib/logstash-1.4.2/bin/logstash agent -f /etc/logstash/logstash-config &
+sleep 2
