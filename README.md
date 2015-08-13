@@ -1,15 +1,16 @@
-realtime analytics using logstash
+## realtime analytics using logstash
 Data Source ( NodeA , NodeB , Node C)
-    ||
+  =>
 Logforwarder / Kafka (client -> Q)
-    ||
+  =>
 Logstash Server
-    ||
+  =>
 (parse, filter, query) 
-    ||
-email, http, statsD , nodejs-rules engine
-    ||
-persist final result into ES => Kibana , Custom Dashboards     
+  =>
+email, http, statsD , nodejs-rules engine , FlabJack
+  =>
+persist final result into ES => Kibana , Custom Dashboards 
+
 ========================
 
 ## How to setup logstash-forwarder in a log-shipping node ?
