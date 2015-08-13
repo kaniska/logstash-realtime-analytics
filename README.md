@@ -6,10 +6,12 @@ Logforwarder / Kafka (client -> Q)
 Logstash Server
   =>
 (parse, filter, query) 
-  =>
-email, http, statsD , nodejs-rules engine , FlabJack
+  =>   [ analyze , calculate, notify ]
+email, http, statsD , nodejs-rules engine , FlabJack 
   =>
 persist final result into ES => Kibana , Custom Dashboards 
+
+The magic is in the logstash config file :-)
 
 ========================
 
@@ -44,3 +46,9 @@ persist final result into ES => Kibana , Custom Dashboards
 ##### simply run the following command
 ##### cd /app/logstash/; ./logstash-executor
 ##### we will receive email notification as soon as an OutOfMemoryError occurs in the box1
+
+##### Reference 
+https://github.com/elasticsearch/logstash-forwarder/issues/230
+https://github.com/elasticsearch/logstash-forwarder/issues/221
+http://serverfault.com/questions/611120/failed-tls-handshake-does-not-contain-any-ip-sans
+ 
